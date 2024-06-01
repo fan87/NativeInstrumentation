@@ -8,8 +8,8 @@ import java.security.ProtectionDomain;
  * Keeps everything in the right order, deals with sync of the list,
  * and actually does the calling of the transformers.
  */
-public class TransformerManager {
-    private class TransformerInfo {
+class TransformerManager {
+    private static class TransformerInfo {
         final ClassFileTransformer mTransformer;
         String mPrefix;
 
@@ -47,10 +47,11 @@ public class TransformerManager {
     /***
      * Is this TransformerManager for transformers capable of retransformation?
      */
-    private boolean mIsRetransformable;
+    private final boolean mIsRetransformable;
 
     TransformerManager(boolean isRetransformable) {
         mTransformerList = new TransformerInfo[0];
+        mIsRetransformable = isRetransformable;
     }
 
     boolean isRetransformable() {
@@ -146,8 +147,7 @@ public class TransformerManager {
         byte[] bufferToUse = classfileBuffer;
 
         // order matters, gotta run 'em in the order they were added
-        for (int x = 0; x < transformerList.length; x++) {
-            TransformerInfo transformerInfo = transformerList[x];
+        for (TransformerInfo transformerInfo : transformerList) {
             ClassFileTransformer transformer = transformerInfo.transformer();
             byte[] transformedBytes = null;
 
@@ -191,8 +191,7 @@ public class TransformerManager {
     setNativeMethodPrefix(ClassFileTransformer transformer, String prefix) {
         TransformerInfo[] transformerList = getSnapshotTransformerList();
 
-        for (int x = 0; x < transformerList.length; x++) {
-            TransformerInfo transformerInfo = transformerList[x];
+        for (TransformerInfo transformerInfo : transformerList) {
             ClassFileTransformer aTransformer = transformerInfo.transformer();
 
             if (aTransformer == transformer) {

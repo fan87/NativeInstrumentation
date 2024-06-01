@@ -1,9 +1,8 @@
 package me.fan87.nativeinstrumentation;
 
 import java.util.Locale;
-import java.util.regex.Matcher;
 
-public class OsDetector {
+class OsDetector {
 
     // Source kr.motd.maven:os-maven-plugin
     private static String normalizeOs(String value) {
@@ -129,7 +128,6 @@ public class OsDetector {
     public static String getOsClassifier() {
         final String osName = System.getProperty("os.name");
         final String osArch = System.getProperty("os.arch");
-        final String osVersion = System.getProperty("os.version");
 
         final String detectedName = normalizeOs(osName);
         final String detectedArch = normalizeArch(osArch);
