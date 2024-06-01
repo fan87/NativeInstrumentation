@@ -62,19 +62,21 @@ allprojects {
             options.encoding = "utf-8"
         }
     }
-    publishing {
-        publications.configureEach {
-            if (this is MavenPublication) {
-                pom {
-                    url.set("https://github.com/fan87/NativeInstrumentation")
-                    scm {
+    if (extensions.findByName("publishing") != null) {
+        publishing {
+            publications.configureEach {
+                if (this is MavenPublication) {
+                    pom {
                         url.set("https://github.com/fan87/NativeInstrumentation")
-                    }
-                    licenses {
-                        license {
-                            name.set("GNU General Public License v3.0")
-                            url.set("https://www.gnu.org/licenses/gpl-3.0.txt")
-                            distribution.set("repo")
+                        scm {
+                            url.set("https://github.com/fan87/NativeInstrumentation")
+                        }
+                        licenses {
+                            license {
+                                name.set("GNU General Public License v3.0")
+                                url.set("https://www.gnu.org/licenses/gpl-3.0.txt")
+                                distribution.set("repo")
+                            }
                         }
                     }
                 }
