@@ -34,7 +34,7 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           job-id: jdk8
-          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} build
+          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} publish
       - name: Store reports
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         uses: actions/upload-artifact@v3
@@ -60,7 +60,7 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           job-id: jdk8
-          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} build
+          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} publish
       - name: Store reports
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         uses: actions/upload-artifact@v3
@@ -85,7 +85,7 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           job-id: jdk8
-          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} build
+          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} publish
       - name: Store reports
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         uses: actions/upload-artifact@v3
