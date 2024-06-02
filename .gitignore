@@ -24,4 +24,5 @@ build/
 # Other
 !/.gitignore
 !/README.md
+!/LICENSE.txt
 !/.github
