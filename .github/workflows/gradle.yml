@@ -32,7 +32,7 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           job-id: jdk8
-          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} publish
+          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} test publish
       - name: Store reports
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         uses: actions/upload-artifact@v3
@@ -58,7 +58,7 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           job-id: jdk8
-          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} publish
+          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} test :native-instrumentation-native:publish
       - name: Store reports
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         uses: actions/upload-artifact@v3
@@ -83,7 +83,7 @@ jobs:
         uses: burrunan/gradle-cache-action@v1
         with:
           job-id: jdk8
-          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} publish
+          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} test :native-instrumentation-native:publish
       - name: Store reports
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         uses: actions/upload-artifact@v3
@@ -94,11 +94,9 @@ jobs:
             **/build/test-results/
 
   dependency-submission:
-
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 8
