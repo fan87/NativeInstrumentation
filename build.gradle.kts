@@ -42,7 +42,7 @@ private fun getOutputFile(target: String): RegularFile {
 
 val setupCmake by tasks.register<Exec>("setupCmake") {
     group = "cmake"
-    commandLine("cmake", "-DCMAKE_BUILD_TYPE=Debug", "-Dinject_method=ptrace", projectDir.absolutePath)
+    commandLine("cmake", "-DCMAKE_BUILD_TYPE=Release", projectDir.absolutePath)
     workingDir(cmakeBuildDir)
 }
 
@@ -62,20 +62,32 @@ allprojects {
             options.encoding = "utf-8"
         }
     }
-    if (extensions.findByName("publishing") != null) {
-        publishing {
-            publications.configureEach {
-                if (this is MavenPublication) {
-                    pom {
-                        url.set("https://github.com/fan87/NativeInstrumentation")
-                        scm {
-                            url.set("https://github.com/fan87/NativeInstrumentation")
+    afterEvaluate {
+        if (extensions.findByName("publishing") != null) {
+            publishing {
+                repositories {
+                    maven {
+                        name = "GitHub"
+                        url = uri("https://maven.pkg.github.com/fan87/NativeInstrumentation")
+                        credentials {
+                            username = project.findProperty("gpr.user")?.toString() ?: System.getenv("GH_USER")
+                            password = project.findProperty("gpr.key")?.toString() ?: System.getenv("GH_KEY")
                         }
-                        licenses {
-                            license {
-                                name.set("GNU General Public License v3.0")
-                                url.set("https://www.gnu.org/licenses/gpl-3.0.txt")
-                                distribution.set("repo")
+                    }
+                }
+                publications.configureEach {
+                    if (this is MavenPublication) {
+                        pom {
+                            url.set("https://github.com/fan87/NativeInstrumentation")
+                            scm {
+                                url.set("https://github.com/fan87/NativeInstrumentation")
+                            }
+                            licenses {
+                                license {
+                                    name.set("GNU General Public License v3.0")
+                                    url.set("https://www.gnu.org/licenses/gpl-3.0.txt")
+                                    distribution.set("repo")
+                                }
                             }
                         }
                     }

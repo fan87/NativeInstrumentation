@@ -503,7 +503,7 @@ void classFileLoad(jvmtiEnv *jvmti_env,
     *new_class_data_len = jni_env->GetArrayLength(out);
     *new_class_data = (unsigned char*) jni_env->GetByteArrayElements(out, nullptr);
 }
-jvmtiEventCallbacks callbacks{};
+jvmtiEventCallbacks callbacks;
 
 JNIEXPORT void JNICALL Java_me_fan87_nativeinstrumentation_NativeInstrumentation_libInit
         (JNIEnv *env, jclass) {

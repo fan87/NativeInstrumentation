@@ -25,3 +25,5 @@ add_custom_command(TARGET native_instrumentation_native POST_BUILD
         "$<TARGET_FILE:native_instrumentation_native>"
         "${CMAKE_BINARY_DIR}/lib/$<TARGET_FILE_NAME:native_instrumentation_native>"
         COMMENT "Copying to output directory")
+
+set_target_properties(native_instrumentation_native PROPERTIES LINK_FLAGS_RELEASE -s)
