@@ -1,7 +1,18 @@
 ![banner](assets/banner.png)
 
-> ⚠️ This does not currently support Linux x86 32-bit, Linux ARM, Windows x86 32-bit or Windows ARM, because neither we nor GitHub Actions 
-> have a machine to build them. But ideally, the source code should still work
+### ⚠️️ Supported OS
+|             | x86 64 | x86 32 | ARM 64 | ARM 32 |
+|-------------|--------|--------|--------|--------|
+| Linux       | 🟢     | 🔴     | 🔴     | 🔴     |
+| Windows     | 🟢     | 🔴     | 🔴     | 🔴     |
+| MacOS / OSX | 🔴     | 🔴     | 🟢     | 🔴     |
+
+**However, the code itself should still work for every variant**. I
+just don't have a machine to build or even test the missing ones, and I'm not sure
+if I can configure GitHub Actions to do it.
+
+**If you know a GitHub Actions alternative for the missing variants, please let me know,**
+although I probably won't pay money for this open-source project.
 
 ### Usage
 The `NativeInstrumentation` class provided in this library simply
@@ -91,3 +102,13 @@ Maven
     </dependency>
 </dependencies>
 ```
+
+#### About the Code Quality
+All the C++ code in this repository are not modern C++, they are
+written in a C-like way, and they are extremely old, since they were used
+for an internal project that was active around 3 ~ 4 years ago, and I'm just
+now open-sourcing this piece of the code.
+
+*TL;DR, the code quality of C++ here is terrible, and I know that*
+
+<p align="right"><sub><sup>Open Source Project</sup></sub></p>
