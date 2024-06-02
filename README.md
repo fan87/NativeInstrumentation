@@ -52,9 +52,12 @@ repositories {
 }
 
 dependencies {
+    // Library
     implementation("me.fan87:native-instrumentation:1.0-SNAPSHOT")
-    runtimeOnly("me.fan87:native-instrumentation-native:1.0-SNAPSHOT:linux-x86_64")
-    runtimeOnly("me.fan87:native-instrumentation-native:1.0-SNAPSHOT:windows-x86_64")
+    // Native Code, include what your project supports
+    runtimeOnly("me.fan87:native-instrumentation-native-linux-x86_64:1.0-SNAPSHOT")
+    runtimeOnly("me.fan87:native-instrumentation-native-windows-x86_64:1.0-SNAPSHOT")
+    runtimeOnly("me.fan87:native-instrumentation-native-osx-aarch64:1.0-SNAPSHOT")
 }
 ```
 
@@ -64,9 +67,12 @@ repositories {
 }
 
 dependencies {
+    // Library
     implementation "me.fan87:native-instrumentation:1.0-SNAPSHOT"
-    runtimeOnly "me.fan87:native-instrumentation-native:1.0-SNAPSHOT:linux-x86_64"
-    runtimeOnly "me.fan87:native-instrumentation-native:1.0-SNAPSHOT:windows-x86_64"
+    // Native Code, include what your project supports
+    runtimeOnly "me.fan87:native-instrumentation-native-linux-x86_64:1.0-SNAPSHOT"
+    runtimeOnly "me.fan87:native-instrumentation-native-windows-x86_64:1.0-SNAPSHOT"
+    runtimeOnly "me.fan87:native-instrumentation-native-osx-aarch64:1.0-SNAPSHOT"
 }
 ```
 
@@ -88,16 +94,20 @@ Maven
     </dependency>
     <dependency>
         <groupId>me.fan87</groupId>
-        <artifactId>native-instrumentation-native</artifactId>
+        <artifactId>native-instrumentation-native-linux-x86_64</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <classifier>linux-x86_64</classifier>
         <scope>runtime</scope>
     </dependency>
     <dependency>
         <groupId>me.fan87</groupId>
-        <artifactId>native-instrumentation-native</artifactId>
+        <artifactId>native-instrumentation-native-windows-x86_64</artifactId>
         <version>1.0-SNAPSHOT</version>
-        <classifier>windows-x86_64</classifier>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>me.fan87</groupId>
+        <artifactId>native-instrumentation-native-osx-aarch64</artifactId>
+        <version>1.0-SNAPSHOT</version>
         <scope>runtime</scope>
     </dependency>
 </dependencies>
