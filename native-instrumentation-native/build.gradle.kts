@@ -15,14 +15,32 @@ plugins {
     id("maven-publish")
 }
 
+
 class CMakePlugin @Inject constructor(
     private val softwareComponentFactory: SoftwareComponentFactory
 ) : Plugin<Project> {
+
+    inner class DetectorImpl : Detector() {
+        val properties = Properties()
+
+        init {
+            detect(properties, arrayListOf())
+        }
+
+        override fun log(message: String?) {
+            logger.info(message)
+        }
+
+        override fun logProperty(name: String?, value: String?) {
+        }
+    }
     private val logger = LoggerFactory.getLogger(Detector::class.java)
+
     override fun apply(project: Project) {
+        val impl = DetectorImpl()
+        val classifier = impl.properties[Detector.DETECTED_CLASSIFIER].toString()
         val setupCmake = project.rootProject.tasks.getByName("setupCmake") as Exec
         val cmakeBuildDir: Directory by project.rootProject.extensions
-        val impl = DetectorImpl()
         val target = project.name.replace("-", "_")
         val cmakeBuild = project.tasks.register<Exec>("cmakeBuild") {
             group = "cmake"
@@ -34,11 +52,10 @@ class CMakePlugin @Inject constructor(
         val jar = project.tasks.register<Jar>("jar") {
             dependsOn(cmakeBuild)
             from(cmakeBuildDir.dir("lib").file(System.mapLibraryName(target))) {
-                rename { System.mapLibraryName(target + "-" + impl.properties[Detector.DETECTED_CLASSIFIER]) }
+                rename { System.mapLibraryName("$target-$classifier") }
             }
             archiveBaseName.set(project.name)
             archiveVersion.set(project.version.toString())
-            archiveClassifier.set(impl.properties[Detector.DETECTED_CLASSIFIER].toString())
             destinationDirectory.set(project.layout.buildDirectory.dir("libs"))
         }
         val outgoing by project.configurations.creating {
@@ -62,25 +79,12 @@ class CMakePlugin @Inject constructor(
             mapToMavenScope("runtime")
         }
         project.artifacts.add("outgoing", jar)
+        project.extensions.add("classifier", classifier)
     }
 
-    private inner class DetectorImpl : Detector() {
-        val properties = Properties()
-
-        init {
-            detect(properties, arrayListOf())
-        }
-
-        override fun log(message: String?) {
-            logger.info(message)
-        }
-
-        override fun logProperty(name: String?, value: String?) {
-        }
-
-    }
 }
 
+val classifier: String by project
 
 apply<CMakePlugin>()
 
@@ -91,6 +95,7 @@ publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["native"])
+            artifactId = "native-instrumentation-native-$classifier"
         }
     }
 }
