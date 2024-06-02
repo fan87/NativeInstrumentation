@@ -514,7 +514,7 @@ JNIEXPORT void JNICALL Java_me_fan87_nativeinstrumentation_NativeInstrumentation
     mtrace();
     #endif
     MTRACE_START
-    #ifdef NDEBUG
+    ##ifndef NDEBUG
         printf("[NativeInstrumentation] libInit: A debug version of NativeInstrumnetation is currently being used, do not use it in production!\n");
     #endif
     #ifdef DO_MEM_CHECK
