@@ -70,8 +70,8 @@ allprojects {
                         name = "GitHub"
                         url = uri("https://maven.pkg.github.com/fan87/NativeInstrumentation")
                         credentials {
-                            username = project.property("gpr.user").toString()
-                            password = project.property("gpr.key").toString()
+                            username = project.findProperty("gpr.user")?.toString() ?: System.getenv("GH_USER")
+                            password = project.findProperty("gpr.key")?.toString() ?: System.getenv("GH_KEY")
                         }
                     }
                 }
