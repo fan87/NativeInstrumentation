@@ -5,15 +5,14 @@
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
 
-name: Build Snapshot
+name: Run Tests
 
 on:
-  push:
+  pull_request:
     branches: [ "main" ]
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
   build-ubuntu:
@@ -27,12 +26,12 @@ jobs:
           distribution: 'zulu'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-      - name: Build with Gradle
+      - name: Test with Gradle
         id: build
         uses: burrunan/gradle-cache-action@v1
         with:
           job-id: jdk8
-          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} publish
+          arguments: test
       - name: Store reports
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         uses: actions/upload-artifact@v3
@@ -53,12 +52,12 @@ jobs:
           distribution: 'zulu'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-      - name: Build with Gradle
+      - name: Test with Gradle
         id: build
         uses: burrunan/gradle-cache-action@v1
         with:
           job-id: jdk8
-          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} publish
+          arguments: test
       - name: Store reports
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         uses: actions/upload-artifact@v3
@@ -78,12 +77,12 @@ jobs:
           distribution: 'zulu'
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
-      - name: Build with Gradle
+      - name: Test with Gradle
         id: build
         uses: burrunan/gradle-cache-action@v1
         with:
           job-id: jdk8
-          arguments: -Pgpr.user=${{ github.actor }} -Pgpr.key=${{ secrets.GITHUB_TOKEN }} publish
+          arguments: test
       - name: Store reports
         if: ${{ failure() && steps.build.conclusion == 'failure' }}
         uses: actions/upload-artifact@v3
@@ -92,22 +91,3 @@ jobs:
           path: |
             **/build/reports/
             **/build/test-results/
-
-  dependency-submission:
-
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 8
-        uses: actions/setup-java@v3
-        with:
-          java-version: '8'
-          distribution: 'temurin'
-
-      # Generates and submits a dependency graph, enabling Dependabot Alerts for all project dependencies.
-      # See: https://github.com/gradle/actions/blob/main/dependency-submission/README.md
-      - name: Generate and submit dependency graph
-        uses: gradle/actions/dependency-submission@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
