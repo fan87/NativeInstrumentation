@@ -63,7 +63,14 @@ dependencies {
 
 ```groovy
 repositories {
-    maven { url "https://maven.pkg.github.com/fan87/NativeInstrumentation" }
+    maven {
+        name = "NativeInstrumentation"
+        url = uri("https://maven.pkg.github.com/fan87/NativeInstrumentation")
+        credentials {
+            username = project.findProperty("gpr.user")?.toString() ?: System.getenv("GH_USER")
+            password = project.findProperty("gpr.key")?.toString() ?: System.getenv("GH_KEY")
+        }
+    }
 }
 
 dependencies {
