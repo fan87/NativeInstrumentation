@@ -42,7 +42,7 @@ private fun getOutputFile(target: String): RegularFile {
 
 val setupCmake by tasks.register<Exec>("setupCmake") {
     group = "cmake"
-    commandLine("cmake", "-DCMAKE_BUILD_TYPE=Release", projectDir.absolutePath)
+    commandLine("cmake", "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release", projectDir.absolutePath)
     workingDir(cmakeBuildDir)
 }
 
